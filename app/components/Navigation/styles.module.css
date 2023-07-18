@@ -1,0 +1,20 @@
+.top__navbar__left {
+    padding: 0.5em;
+    display: inline-block;
+    display: flex;
+    justify-content: space-between;
+    background-color: greenyellow;
+  }
+  
+  .top__navbar__right a {
+    text-decoration: none;
+    color: #000;
+    font-size: 1.5em;
+    padding: 0 1em;
+  }
+  
+  .top__navbar__home {
+    text-decoration: none;
+    color: #000;
+    font-size: 1.5em;
+  }
