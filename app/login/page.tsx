@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 const Login = () => {
     return (
         <div className={styles['main__login__page']}>
-            This is the Login page
+            <div className={styles['main__login__page__header']}>
+                <h1>Sign In</h1>
+            </div>
         </div>
     )
 }
