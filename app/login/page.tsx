@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { Metadata } from "next"
 import styles from './styles.module.css'
 import { Button, TextField } from '@mui/material';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
     title: 'Login'
@@ -55,6 +56,9 @@ const Login = () => {
                     variant="contained">
                     Login
                 </Button>
+                <div className={styles['main__login__page__signin_redirect']}>
+                    <p className={styles['main__login__page__signin_link']}>Don't have an account? <Link href='/register'>Register</Link> </p>
+                </div>
             </section>
         </div>
     )
