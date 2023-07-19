@@ -13,10 +13,9 @@ export const metadata: Metadata = {
 const Login = () => {
 
     const [userData, setUserData] = useState({
-        username: '',
+        email: '',
         password: ''
     });
-
 
     const handleUserData = (e: any) => {
         setUserData({
@@ -35,10 +34,10 @@ const Login = () => {
                 <div className={styles['main__login__page__inputs']}>
                     <TextField
                         id="standard-basic"
-                        label="Username"
+                        label="Email"
                         variant="standard"
-                        name='username'
-                        value={userData.username}
+                        name='email'
+                        value={userData.email}
                         onChange={handleUserData}
                         className={styles['main__login__page__username']} />
                     <TextField
@@ -57,7 +56,8 @@ const Login = () => {
                     Login
                 </Button>
                 <div className={styles['main__login__page__signin_redirect']}>
-                    <p className={styles['main__login__page__signin_link']}>Don't have an account? <Link href='/register'>Register</Link> </p>
+                    <p className={styles['main__login__page__signin_link']}>Don't have an account? <Link href='/register'>Register</Link>
+                    </p>
                 </div>
             </section>
         </div>

@@ -19,7 +19,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					margin: 0,
 					padding: 0
 				}}>
-
 				<Navigation />
 				{children}
 			</body>

@@ -1,22 +1,25 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Metadata } from "next"
 import styles from './styles.module.css'
 import { Button, TextField } from '@mui/material';
 import Link from 'next/link';
+import signUp from '../auth/userSignUp';
+import { useRouter } from 'next/navigation';
 
 export const metadata: Metadata = {
     title: 'Register'
 };
 
 const Register = () => {
-
+    const router = useRouter();
     const [userData, setUserData] = useState({
-        username: '',
+        email: '',
         password: '',
         repeatPassword: ''
     });
+    const [error, setError] = useState<string>('');
 
     const handleUserData = (e: any) => {
         setUserData({
@@ -24,6 +27,21 @@ const Register = () => {
             [e.target.name]: e.target.value
         });
     };
+
+    const handleForm = async (e: any) => {
+        e.preventDefault();
+
+        try {
+            if (userData.password !== userData.repeatPassword) {
+                return setError('Password mismatch')
+            }
+            await signUp(userData.email, userData.password);
+            setError('Welcome');
+            return router.push('/');
+        } catch (error) {
+            return setError('Password mismatch')
+        }
+    }
 
     return (
         <div className={styles['main__register__page']}>
@@ -35,10 +53,10 @@ const Register = () => {
                 <div className={styles['main__register__page__inputs']}>
                     <TextField
                         id="standard-basic"
-                        label="Username"
+                        label="Email"
                         variant="standard"
-                        name='username'
-                        value={userData.username}
+                        name='email'
+                        value={userData.email}
                         onChange={handleUserData}
                         className={styles['main__register__page__username']}
                     />
@@ -65,7 +83,8 @@ const Register = () => {
                 </div>
                 <Button
                     className={styles['main__register__page__sign_in']}
-                    variant="contained">
+                    variant="contained"
+                    onClick={handleForm}>
                     Submit
                 </Button>
                 <div className={styles['main__register__page__login_redirect']}>
