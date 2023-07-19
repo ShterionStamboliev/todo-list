@@ -5,8 +5,8 @@ import { Metadata } from "next"
 import styles from './styles.module.css'
 import { Button, TextField } from '@mui/material';
 import Link from 'next/link';
-import signUp from '../auth/userSignUp';
 import { useRouter } from 'next/navigation';
+import signUp from '../auth/userSignUp';
 
 export const metadata: Metadata = {
     title: 'Register'
