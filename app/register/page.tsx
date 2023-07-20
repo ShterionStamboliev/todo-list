@@ -6,7 +6,8 @@ import styles from './styles.module.css'
 import { Button, TextField } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import signUp from '../auth/userSignUp';
+import signUp from '../auth/UserSignUp';
+import { runSuccessfulRegistration, runPasswordError } from '../alerts/onSuccess';
 
 export const metadata: Metadata = {
     title: 'Register'
@@ -14,34 +15,37 @@ export const metadata: Metadata = {
 
 const Register = () => {
     const router = useRouter();
+    const [error, setError] = useState<string>('');
     const [userData, setUserData] = useState({
         email: '',
         password: '',
         repeatPassword: ''
     });
-    const [error, setError] = useState<string>('');
 
-    const handleUserData = (e: any) => {
+    const handleUserData = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserData({
             ...userData,
             [e.target.name]: e.target.value
         });
     };
 
-    const handleForm = async (e: any) => {
+    const handleForm = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
 
         try {
             if (userData.password !== userData.repeatPassword) {
-                return setError('Password mismatch')
+                return runPasswordError();
             }
-            await signUp(userData.email, userData.password);
+            await signUp(userData.email, userData.password)
+                .then(() => {
+                    runSuccessfulRegistration();
+                });
             setError('Welcome');
             return router.push('/');
         } catch (error) {
             return setError('Password mismatch')
         }
-    }
+    };
 
     return (
         <div className={styles['main__register__page']}>

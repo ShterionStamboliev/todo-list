@@ -1,12 +1,17 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Metadata } from "next"
 import styles from './styles.module.css'
 import { Button, TextField } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import signIn from '../auth/userSignIn'
+import signIn from '../auth/UserSignIn'
+import {
+    runEmptyFieldError,
+    runSuccessfulLogin,
+    runInvalidInputData
+} from '../alerts/onSuccess';
 
 export const metadata: Metadata = {
     title: 'Login'
@@ -18,37 +23,35 @@ const Login = () => {
         email: '',
         password: ''
     });
-    const [error, setError] = useState<string>('');
 
-    const handleUserData = (e: any) => {
+    const handleUserData = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserData({
             ...userData,
             [e.target.name]: e.target.value
         });
     };
 
-    const handleForm = async (e: any) => {
+    const handleForm = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
 
         try {
             if (!userData.password) {
-                return setError('Invalid user data')
+                return runInvalidInputData();
             };
             if (!userData.email) {
-                return setError('Invalid user data')
+                return runInvalidInputData();
             };
             if (userData.password === '') {
-                return setError('Invalid user data')
+                return runEmptyFieldError();
             };
             if (userData.email === '') {
-                return setError('Invalid user data')
+                return runEmptyFieldError();
             };
-            
             await signIn(userData.email, userData.password);
-            setError('Welcome');
+            runSuccessfulLogin();
             return router.push('/');
         } catch (error) {
-            return setError('Password mismatch')
+            return runInvalidInputData();
         }
     }
 
@@ -85,7 +88,8 @@ const Login = () => {
                     Login
                 </Button>
                 <div className={styles['main__login__page__signin_redirect']}>
-                    <p className={styles['main__login__page__signin_link']}>Don't have an account? <Link href='/register'>Register</Link>
+                    <p className={styles['main__login__page__signin_link']}>
+                        Don't have an account? <Link href='/register'>Register</Link>
                     </p>
                 </div>
             </section>
