@@ -5,9 +5,11 @@ import { Metadata } from "next"
 import styles from './styles.module.css'
 import { Button, TextField } from '@mui/material';
 import Link from 'next/link';
+import { db, auth } from '../firebase/config';
 import { useRouter } from 'next/navigation';
-import signUp from '../auth/UserSignUp';
 import { runSuccessfulRegistration, runPasswordError } from '../alerts/onSuccess';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 export const metadata: Metadata = {
     title: 'Register'
@@ -29,19 +31,27 @@ const Register = () => {
         });
     };
 
-    const handleForm = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const handleForm = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
 
         try {
             if (userData.password !== userData.repeatPassword) {
                 return runPasswordError();
             }
-            await signUp(userData.email, userData.password)
-                .then(() => {
-                    runSuccessfulRegistration();
+            createUserWithEmailAndPassword(auth, userData.email, userData.password)
+                .then((userCredentials) => {
+                    const user = userCredentials.user;
+                    const docRef = doc(db, 'users', user.uid);
+                    setDoc(docRef, {
+                        email: userData.email,
+                        createdOn: new Date().toLocaleDateString(),
+                        todoList: []
+                    }).then(() => {
+                        runSuccessfulRegistration();
+                        setError('Welcome');
+                        return router.push('/');
+                    })
                 });
-            setError('Welcome');
-            return router.push('/');
         } catch (error) {
             return setError('Password mismatch')
         }

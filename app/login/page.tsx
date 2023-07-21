@@ -6,7 +6,8 @@ import styles from './styles.module.css'
 import { Button, TextField } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import signIn from '../auth/UserSignIn'
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase/config';
 import {
     runEmptyFieldError,
     runSuccessfulLogin,
@@ -31,7 +32,7 @@ const Login = () => {
         });
     };
 
-    const handleForm = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const handleForm = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
 
         try {
@@ -47,9 +48,12 @@ const Login = () => {
             if (userData.email === '') {
                 return runEmptyFieldError();
             };
-            await signIn(userData.email, userData.password);
-            runSuccessfulLogin();
-            return router.push('/');
+
+            signInWithEmailAndPassword(auth, userData.email, userData.password)
+                .then(() => {
+                    runSuccessfulLogin();
+                    return router.push('/');
+                });
         } catch (error) {
             return runInvalidInputData();
         }

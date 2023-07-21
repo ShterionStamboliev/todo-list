@@ -4,6 +4,7 @@ import Navigation from './components/Navigation/Navigation'
 import styles from './page.module.css'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { AuthProvider } from './provider/AuthProvider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,9 +22,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					margin: 0,
 					padding: 0
 				}}>
-				<Navigation />
-				{children}
-				<ToastContainer />
+				<AuthProvider>
+					<Navigation />
+					{children}
+					<ToastContainer />
+				</AuthProvider>
 			</body>
 		</html>
 	)

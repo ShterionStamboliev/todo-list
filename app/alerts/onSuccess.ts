@@ -44,3 +44,12 @@ export const runInvalidInputData = () => {
         position: 'top-center'
     })
 }
+
+export const runSignOutAlert = () => {
+    toast('Logout successful', {
+        hideProgressBar: true,
+        autoClose: 2000,
+        type: 'success',
+        position: 'top-center'
+    })
+}
