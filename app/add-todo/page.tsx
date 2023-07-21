@@ -1,11 +1,15 @@
 import React from 'react'
+import Image from 'next/image'
 
 const AddTodo = () => {
 
-    
-
     return (
-        <div>AddTodo</div>
+        <div>
+            <Image
+                src={'../content/image1.png'}
+                alt='img'
+            />
+        </div>
     )
 }
 
