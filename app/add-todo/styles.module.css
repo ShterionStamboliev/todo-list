@@ -20,7 +20,7 @@
 .todo__alt__image {
     width: 100%;
     height: 50vh;
-    background: rgb(36, 39, 61);
+    background: rgb(23, 23, 35);
 }
 
 .todo__main__form {
@@ -113,4 +113,10 @@
     display: block;
     position: absolute;
     transition: all 0.8s;
+}
+
+.todo__card_paragraph {
+    color: rgb(151, 153, 195);
+    margin-bottom: 0;
+    text-align: center;
 }

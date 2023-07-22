@@ -24,6 +24,7 @@ const AddTodo = () => {
                                 {todo}
                             </div>
                         ))}
+                        <p className={styles['todo__card_paragraph']}>Drag and drop to reorder list</p>
                     </div>
                 </div>
                 <div className={styles['todo__alt__image']}></div>

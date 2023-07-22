@@ -1,36 +1,37 @@
 .top__navbar__left {
-    padding: 0.5em;
-    display: inline-block;
-    display: flex;
-    justify-content: space-between;
-    background-color: greenyellow;
-  }
-  
-  .top__navbar__right a {
-    text-decoration: none;
-    color: #000;
-    font-size: 1.5em;
-    padding: 0 1em;
-  }
-  
-  .top__navbar__home {
-    text-decoration: none;
-    color: #000;
-    font-size: 1.5em;
-    align-items: center;
-  }
+  padding: 0.5em;
+  display: inline-block;
+  display: flex;
+  justify-content: space-between;
+  background: rgb(44,45,56);
+  background: linear-gradient(90deg, rgba(44,45,56,1) 32%, rgba(45,45,46,1) 100%);
+}
 
-  .top__navbar__user {
-    display: inline-block;
-    font-size: 1.5em;
-    margin: 0;
-    padding-right: 1em;
-  }
+.top__navbar__right a {
+  text-decoration: none;
+  color: #000;
+  font-size: 1.5em;
+  padding: 0 1em;
+}
 
-  .top__navbar__logout_btn {
-    border: none;
-    background: none;
-    display: inline-block;
-    font-size: 1.5em;
-    cursor: pointer;
-  }
+.top__navbar__home {
+  text-decoration: none;
+  color: #000;
+  font-size: 1.5em;
+  align-items: center;
+}
+
+.top__navbar__user {
+  display: inline-block;
+  font-size: 1.5em;
+  margin: 0;
+  padding-right: 1em;
+}
+
+.top__navbar__logout_btn {
+  border: none;
+  background: none;
+  display: inline-block;
+  font-size: 1.5em;
+  cursor: pointer;
+}
