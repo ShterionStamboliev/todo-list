@@ -1,35 +1,41 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './styles.module.css'
-import { doc, setDoc, collection, writeBatch, addDoc } from 'firebase/firestore';
+import { doc, setDoc, collection, writeBatch, addDoc, getDocs, DocumentData } from 'firebase/firestore';
 import { auth, db } from '../firebase/config';
 import { useRouter } from 'next/navigation';
 
+type TodoProps = {
+    title: string,
+    owner: string,
+}
+
 const AddTodo = () => {
     const router = useRouter();
-    const todos: string[] = ['First', 'Second', 'Third', 'Fourth'];
+    const batch = writeBatch(db);
+    const userDocs = collection(db, 'todos');
 
     const [todo, setTodo] = useState({
         todoInput: ''
     });
 
-    const user = auth.currentUser;
-   
+    const [todoData, setTodoData] = useState<TodoProps[]>([]);
+
     const handleTodoSubmit = async () => {
+        const user = auth.currentUser;
         if (user) {
             const userDoc = doc(db, 'users', user.uid);
-            const batch = writeBatch(db);
-            const userDocs = collection(db, 'todos');
-        
+
             await addDoc(userDocs, {
                 author: {
-                    owner: user.uid
+                    owner: user.uid,
+                    title: todo.todoInput
                 }
             }).then(async (doc) => {
                 const docId = doc.id;
                 await setDoc(userDoc, {
-                    todo: {
+                    todoList: {
                         [docId]: {
                             todoTitle: todo.todoInput,
                             isCompleted: false
@@ -38,9 +44,41 @@ const AddTodo = () => {
                 }, { merge: true })
             })
             await batch.commit();
-            return router.push('/');
+            setTodo({
+                todoInput: ''
+            });
+            return router.push('/add-todo');
         }
     };
+
+    function parseData(data: DocumentData[]): TodoProps[] {
+        const result: TodoProps[] = [];
+        
+        data.forEach((doc) => {
+            result.push({ owner: doc.author.owner, title: doc.author.title })
+        });
+    
+        return result;
+    }
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const query = await getDocs(collection(db, 'todos'));
+                const data = query.docs.map((doc) => ({
+                    ...doc.data()
+                }));
+                console.log(data);
+                const parser = parseData(data);
+                setTodoData(parser);
+            } catch (error) {
+                if (typeof Error === error) {
+                    console.log(error);
+                }
+            }
+        }
+        getData();
+    }, []);
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTodo({
@@ -67,15 +105,17 @@ const AddTodo = () => {
                     </div>
 
                     <div className={styles['todo__tasks__container']}>
-                        {todos.map((todo) => (
-                            <div className={styles['todo__card']}>
-                                <input
-                                    className={styles['todo__radio__btn']}
-                                    type="radio"
-                                    id="radio-input" />
-                                {todo}
-                            </div>
-                        ))}
+                        {todoData.map((todo: TodoProps, i: number) => {
+                            return (
+                                <div className={styles['todo__card']} key={i}>
+                                    <input
+                                        className={styles['todo__radio__btn']}
+                                        type="radio"
+                                        id="radio-input" />
+                                    {todo.title}
+                                </div>
+                            )
+                        })}
                         <p className={styles['todo__card_paragraph']}>Drag and drop to reorder list</p>
                     </div>
                 </div>
