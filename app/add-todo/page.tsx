@@ -2,13 +2,45 @@
 
 import React, { useState } from 'react'
 import styles from './styles.module.css'
+import { doc, setDoc, collection, writeBatch, addDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase/config';
+import { useRouter } from 'next/navigation';
 
 const AddTodo = () => {
-
+    const router = useRouter();
     const todos: string[] = ['First', 'Second', 'Third', 'Fourth'];
+
     const [todo, setTodo] = useState({
         todoInput: ''
     });
+
+    const user = auth.currentUser;
+   
+    const handleTodoSubmit = async () => {
+        if (user) {
+            const userDoc = doc(db, 'users', user.uid);
+            const batch = writeBatch(db);
+            const userDocs = collection(db, 'todos');
+        
+            await addDoc(userDocs, {
+                author: {
+                    owner: user.uid
+                }
+            }).then(async (doc) => {
+                const docId = doc.id;
+                await setDoc(userDoc, {
+                    todo: {
+                        [docId]: {
+                            todoTitle: todo.todoInput,
+                            isCompleted: false
+                        }
+                    }
+                }, { merge: true })
+            })
+            await batch.commit();
+            return router.push('/');
+        }
+    };
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTodo({
@@ -30,7 +62,7 @@ const AddTodo = () => {
                                 name='todoInput'
                                 onChange={handleInput}
                                 value={todo.todoInput} />
-                            <button className={styles['todo__add__button']}>+</button>
+                            <button className={styles['todo__add__button']} onClick={handleTodoSubmit}>+</button>
                         </div>
                     </div>
 
