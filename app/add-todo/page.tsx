@@ -1,9 +1,21 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 import styles from './styles.module.css'
 
 const AddTodo = () => {
 
     const todos: string[] = ['First', 'Second', 'Third', 'Fourth'];
+    const [todo, setTodo] = useState({
+        todoInput: ''
+    });
+
+    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTodo({
+            ...todo,
+            [e.target.name]: e.target.value
+        })
+    };
 
     return (
         <>
@@ -12,7 +24,12 @@ const AddTodo = () => {
                     <div className={styles['todo__form__container']}>
                         <h1 className={styles['todo__main__header']}>T O D O</h1>
                         <div className={styles['todo__main__form']}>
-                            <input className={styles['todo__main__input']} type="text" placeholder='Add task' />
+                            <input
+                                className={styles['todo__main__input']}
+                                type="text" placeholder='Add task'
+                                name='todoInput'
+                                onChange={handleInput}
+                                value={todo.todoInput} />
                             <button className={styles['todo__add__button']}>+</button>
                         </div>
                     </div>
@@ -20,7 +37,10 @@ const AddTodo = () => {
                     <div className={styles['todo__tasks__container']}>
                         {todos.map((todo) => (
                             <div className={styles['todo__card']}>
-                                <input className={styles['todo__radio__btn']} type="radio" name="radio" id="radio-input" />
+                                <input
+                                    className={styles['todo__radio__btn']}
+                                    type="radio"
+                                    id="radio-input" />
                                 {todo}
                             </div>
                         ))}
