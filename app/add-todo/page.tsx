@@ -68,7 +68,6 @@ const AddTodo = () => {
                 const data = query.docs.map((doc) => ({
                     ...doc.data()
                 }));
-                console.log(data);
                 const parser = parseData(data);
                 setTodoData(parser);
             } catch (error) {
