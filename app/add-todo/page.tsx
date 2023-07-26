@@ -83,12 +83,15 @@ const AddTodo = () => {
         const getData = async () => {
             const controller = new AbortController();
             try {
-                const query = await getDocs(collection(db, 'todos'));
-                const data = query.docs.map((doc) => ({
-                    ...doc.data()
-                }));
-                const parser = parseData(data);
-                setTodoData(parser);
+                if (user) {
+                    const currentUserData = query(userDocs, where("owner", "==", user.email));
+                    const snapshot = await getDocs(currentUserData);
+                    const snapData = snapshot.docs.map((doc) => ({
+                        ...doc.data()
+                    }));
+                    const dataParser = parseData(snapData);
+                    setTodoData(dataParser);
+                }
             } catch (error) {
                 if (typeof Error === error) {
                     return error;
