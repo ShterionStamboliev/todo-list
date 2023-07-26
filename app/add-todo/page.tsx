@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FunctionComponent } from 'react'
 import styles from './styles.module.css'
 import {
     doc,
@@ -13,6 +13,7 @@ import {
     query,
     where
 } from 'firebase/firestore';
+import LoadingSpinner from '../components/Navigation/LoadingSpinner';
 
 import { auth, db } from '../firebase/config';
 import { useRouter } from 'next/navigation';
@@ -23,7 +24,7 @@ type TodoProps = {
     owner: string,
 }
 
-const AddTodo = () => {
+const AddTodo: FunctionComponent = () => {
     const router = useRouter();
     const batch = writeBatch(db);
     const userDocs = collection(db, 'todos');
@@ -34,6 +35,7 @@ const AddTodo = () => {
     });
 
     const [todoData, setTodoData] = useState<TodoProps[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const handleTodoSubmit = async () => {
         if (todo.todoInput === '') {
@@ -79,26 +81,26 @@ const AddTodo = () => {
         return result;
     }
 
-    useEffect(() => {
-        const getData = async () => {
-            const controller = new AbortController();
-            try {
-                if (user) {
-                    const currentUserData = query(userDocs, where("owner", "==", user.email));
-                    const snapshot = await getDocs(currentUserData);
-                    const snapData = snapshot.docs.map((doc) => ({
-                        ...doc.data()
-                    }));
-                    const dataParser = parseData(snapData);
-                    setTodoData(dataParser);
-                }
-            } catch (error) {
-                if (typeof Error === error) {
-                    return error;
-                }
+    const getData = async () => {
+        try {
+            if (user) {
+                const currentUserData = query(userDocs, where("owner", "==", user.email));
+                const snapshot = await getDocs(currentUserData);
+                const snapData = snapshot.docs.map((doc) => ({
+                    ...doc.data()
+                }));
+                const dataParser = parseData(snapData);
+                setTodoData(dataParser);
+                setIsLoading(false);
             }
-            return () => controller.abort();
-        }
+        } catch (error) {
+            if (typeof Error === error) {
+                return error;
+            };
+        };
+    };
+
+    useEffect(() => {
         getData();
     }, []);
 
@@ -127,7 +129,7 @@ const AddTodo = () => {
                     </div>
 
                     <div className={styles['todo__tasks__container']}>
-                        {todoData.map((todo: TodoProps, i: number) => {
+                        {isLoading ? <LoadingSpinner /> : todoData.map((todo: TodoProps, i: number) => {
                             return (
                                 <div className={styles['todo__card']} key={i}>
                                     <input
