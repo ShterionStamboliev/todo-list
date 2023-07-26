@@ -1,14 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { auth } from '../firebase/config'
 import { signOut } from 'firebase/auth'
-import { AuthContext } from '../context/AuthContext';
 import { runSignOutAlert } from '../alerts/onSuccess';
 import { useRouter } from 'next/navigation';
-import styles from '../components/Navigation/styles.module.css'
+import styles from '../../app/components/Navigation/styles.module.css'
 
 const Logout = () => {
 
-    const user = useContext(AuthContext);
     const router = useRouter();
 
     const signOutUser = () => {

@@ -25,7 +25,7 @@ const Navigation = () => {
                 <div className={styles['top__navbar__left']}>
                     <Link href='/' className={styles['top__navbar__home']}>Todo-List</Link>
                     <div className={styles['top__navbar__right']}>
-                        <Link href='/add-todo' className={styles['top__navbar__add']}>Add Todo</Link>
+                        <Link href='/my-todos' className={styles['top__navbar__add']}>Add Todo</Link>
                         <p className={styles['top__navbar__user']}>{`Logged in as ${user?.email}`}</p>
                         <Logout />
                     </div>
