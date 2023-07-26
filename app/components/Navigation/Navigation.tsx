@@ -9,7 +9,6 @@ import { AuthContext } from '@/app/context/AuthContext'
 const Navigation = () => {
 
     const user = useContext(AuthContext);
-    console.log(user);
 
     return (
         <>

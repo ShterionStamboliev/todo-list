@@ -2,9 +2,21 @@
 
 import React, { useState, useEffect } from 'react'
 import styles from './styles.module.css'
-import { doc, setDoc, collection, writeBatch, addDoc, getDocs, DocumentData } from 'firebase/firestore';
+import {
+    doc,
+    setDoc,
+    collection,
+    writeBatch,
+    addDoc,
+    getDocs,
+    DocumentData,
+    query,
+    where
+} from 'firebase/firestore';
+
 import { auth, db } from '../firebase/config';
 import { useRouter } from 'next/navigation';
+import { runEmptyFieldError } from '../alerts/onSuccess';
 
 type TodoProps = {
     title: string,
@@ -15,6 +27,7 @@ const AddTodo = () => {
     const router = useRouter();
     const batch = writeBatch(db);
     const userDocs = collection(db, 'todos');
+    const user = auth.currentUser;
 
     const [todo, setTodo] = useState({
         todoInput: ''
@@ -23,15 +36,17 @@ const AddTodo = () => {
     const [todoData, setTodoData] = useState<TodoProps[]>([]);
 
     const handleTodoSubmit = async () => {
-        const user = auth.currentUser;
+        if (todo.todoInput === '') {
+            runEmptyFieldError();
+            return;
+        };
+
         if (user) {
             const userDoc = doc(db, 'users', user.uid);
 
             await addDoc(userDocs, {
-                author: {
-                    owner: user.uid,
-                    title: todo.todoInput
-                }
+                owner: user.email,
+                title: todo.todoInput
             }).then(async (doc) => {
                 const docId = doc.id;
                 await setDoc(userDoc, {
@@ -53,29 +68,40 @@ const AddTodo = () => {
 
     function parseData(data: DocumentData[]): TodoProps[] {
         const result: TodoProps[] = [];
-        
+
         data.forEach((doc) => {
-            result.push({ owner: doc.author.owner, title: doc.author.title })
+            result.push({
+                owner: doc.owner,
+                title: doc.title
+            });
         });
-    
+
         return result;
     }
 
     useEffect(() => {
         const getData = async () => {
+            const controller = new AbortController();
             try {
-                const query = await getDocs(collection(db, 'todos'));
-                const data = query.docs.map((doc) => ({
-                    ...doc.data()
-                }));
-                console.log(data);
-                const parser = parseData(data);
-                setTodoData(parser);
+                // const query = await getDocs(collection(db, 'todos'));
+                // const data = query.docs.map((doc: DocumentData) => ({
+                //     ...doc.data()
+                // }));
+                if (user) {
+                    const currentUserData = query(userDocs, where("owner", "==", user.email));
+                    const snapshot = await getDocs(currentUserData);
+                    const snapData = snapshot.docs.map((doc) => ({
+                        ...doc.data()
+                    }));
+                    const dataParser = parseData(snapData);
+                    setTodoData(dataParser);
+                }
             } catch (error) {
                 if (typeof Error === error) {
-                    console.log(error);
+                    return error;
                 }
             }
+            return () => controller.abort();
         }
         getData();
     }, []);
