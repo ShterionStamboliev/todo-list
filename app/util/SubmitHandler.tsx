@@ -53,17 +53,20 @@ const SubmitHandler: React.FC = () => {
     };
 
     return (
-        <>
-            <input
-                className={styles['todo__main__input']}
-                type="text"
-                placeholder='Add task'
-                name='todoInput'
-                onChange={handleInput}
-                value={todo.todoInput}
-            />
-            <button className={styles['todo__add__button']} onClick={handleTodoSubmit}>+</button>
-        </>
+        <div className={styles['todo__form__container']}>
+            <h1 className={styles['todo__main__header']}>T O D O</h1>
+            <div className={styles['todo__main__form']}>
+                <input
+                    className={styles['todo__main__input']}
+                    type="text"
+                    placeholder='Add task'
+                    name='todoInput'
+                    onChange={handleInput}
+                    value={todo.todoInput}
+                />
+                <button className={styles['todo__add__button']} onClick={handleTodoSubmit}>+</button>
+            </div>
+        </div>
     )
 }
 
