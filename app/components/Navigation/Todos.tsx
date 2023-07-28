@@ -2,7 +2,7 @@
 
 import styles from '../../my-todos/styles.module.css'
 import TodoFetcher from '@/app/util/TodoFetcher';
-import SubmitHandler from '@/app/util/SubmitHandler';
+import SubmitHandler from '@/app/util/TodoSubmitHandler';
 
 const AddTodo: React.FC<TodoProps> = ({ title }) => {
 
