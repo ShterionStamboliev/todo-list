@@ -11,9 +11,7 @@ const Navigation: FunctionComponent = () => {
 
     return (
         <>
-            {
-                user !== null ? <UserNavigation /> : <GuestNavigation />
-            }
+            {user !== null ? <UserNavigation /> : <GuestNavigation />}
         </>
     )
 }
