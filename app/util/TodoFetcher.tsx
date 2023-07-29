@@ -52,21 +52,25 @@ const TodoFetcher: React.FC<TodoProps> = () => {
 
     return (
         <div className={styles['todo__tasks__container']}>
-            {isLoading ? <LoadingSpinner /> : todoData.map((todo: TodoProps, i: number) => {
-                return (
-                    <div className={styles['todo__card']} key={i}>
-                        <input
-                            className={styles['todo__radio__btn']}
-                            type="radio"
-                            id="radio-input"
-                        />
-                        {todo.title}
-                        <button onClick={() => handleDeleteTodo(todo.id)} className={styles['todo__delete_btn']}>
-                            <DeleteIcon />
-                        </button>
-                    </div>
-                )
-            })}
+            {isLoading ?
+                <LoadingSpinner /> :
+                todoData.map((todo: TodoProps, i: number) => {
+                    return (
+                        <div className={styles['todo__card']} key={i}>
+                            <input
+                                className={styles['todo__radio__btn']}
+                                type="radio"
+                                id="radio-input"
+                            />
+                            {todo.title}
+                            <button
+                                onClick={() => handleDeleteTodo(todo.id)}
+                                className={styles['todo__delete_btn']}>
+                                <DeleteIcon />
+                            </button>
+                        </div>
+                    )
+                })}
             {/* <p className={styles['todo__card_paragraph']}>Drag and drop to reorder list</p> */}
         </div>
     )
