@@ -32,15 +32,13 @@ const SubmitHandler: React.FC = () => {
 
             await addDoc(userDocs, {
                 owner: auth.currentUser.email,
-                title: todo.todoInput
+                title: todo.todoInput,
             }).then(async (doc) => {
                 const docId = doc.id;
                 await setDoc(userDoc, {
-                    todoList: {
-                        [docId]: {
-                            todoTitle: todo.todoInput,
-                            isCompleted: false
-                        }
+                    [docId]: {
+                        todoTitle: todo.todoInput,
+                        isCompleted: false
                     }
                 }, { merge: true })
             })

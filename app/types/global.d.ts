@@ -4,7 +4,8 @@ declare global {
     
     type TodoProps = {
         owner?: string;
-        title: string
+        title: string;
+        id?: number
     }
 
     // type InputProps = {

@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { parseData } from '../parsers/data';
 import { auth, db } from '../firebase/config';
 import {
     DocumentData,
     collection,
     getDocs,
     query,
-    where
+    where,
+    doc,
+    deleteDoc
 } from 'firebase/firestore';
 import LoadingSpinner from '../components/Navigation/LoadingSpinner';
 import styles from '../my-todos/styles.module.css'
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const TodoFetcher: React.FC<TodoProps> = () => {
 
@@ -17,16 +19,24 @@ const TodoFetcher: React.FC<TodoProps> = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const todoCollection = collection(db, 'todos');
 
+    useEffect(() => {
+        getData();
+    }, []);
+
     const getData = async () => {
         try {
             if (auth.currentUser) {
+                const docData: TodoProps[] = [];
                 const currentUserData = query(todoCollection, where("owner", "==", auth.currentUser.email));
-                const snapshot = await getDocs(currentUserData);
-                const snapData = snapshot.docs.map((doc: DocumentData) => ({
-                    ...doc.data()
-                }));
-                const dataParser = parseData(snapData);
-                setTodoData(dataParser);
+                await getDocs(currentUserData).then((res) => {
+                    res.forEach((doc: DocumentData) => {
+                        docData.push({
+                            ...doc.data(),
+                            id: doc.id,
+                        });
+                    });
+                });
+                setTodoData(docData);
                 setIsLoading(false);
             }
         } catch (error) {
@@ -36,9 +46,9 @@ const TodoFetcher: React.FC<TodoProps> = () => {
         };
     };
 
-    useEffect(() => {
-        getData();
-    }, []);
+    const handleDeleteTodo = async (id: any) => {
+        await deleteDoc(doc(db, 'todos', id));
+    };
 
     return (
         <div className={styles['todo__tasks__container']}>
@@ -48,12 +58,16 @@ const TodoFetcher: React.FC<TodoProps> = () => {
                         <input
                             className={styles['todo__radio__btn']}
                             type="radio"
-                            id="radio-input" />
+                            id="radio-input"
+                        />
                         {todo.title}
+                        <button onClick={() => handleDeleteTodo(todo.id)} className={styles['todo__delete_btn']}>
+                            <DeleteIcon />
+                        </button>
                     </div>
                 )
             })}
-            <p className={styles['todo__card_paragraph']}>Drag and drop to reorder list</p>
+            {/* <p className={styles['todo__card_paragraph']}>Drag and drop to reorder list</p> */}
         </div>
     )
 }
