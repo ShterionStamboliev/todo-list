@@ -7,17 +7,22 @@ import {
     query,
     where,
     doc,
-    deleteDoc
+    deleteDoc,
+    updateDoc,
+    deleteField,
+    setDoc
 } from 'firebase/firestore';
 import LoadingSpinner from '../components/Navigation/LoadingSpinner';
 import styles from '../my-todos/styles.module.css'
 import DeleteIcon from '@mui/icons-material/Delete';
+import { runTodoDeleteSuccess } from '../alerts/onSuccess';
 
 const TodoFetcher: React.FC<TodoProps> = () => {
 
     const [todoData, setTodoData] = useState<TodoProps[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const todoCollection = collection(db, 'todos');
+
 
     useEffect(() => {
         getData();
@@ -46,8 +51,19 @@ const TodoFetcher: React.FC<TodoProps> = () => {
         };
     };
 
-    const handleDeleteTodo = async (id: any) => {
-        await deleteDoc(doc(db, 'todos', id));
+    const handleDeleteTodo = (id: any) => {
+        if (auth.currentUser) {
+            const userRef = doc(db, 'users', auth.currentUser.uid);
+            deleteDoc(doc(db, 'todos', id)).then(async () => {
+                await setDoc(userRef, {
+                    todoList: {
+                        [id]: deleteField()
+                    }
+                }, { merge: true });
+            }
+            )
+        }
+        runTodoDeleteSuccess();
     };
 
     return (
@@ -71,7 +87,7 @@ const TodoFetcher: React.FC<TodoProps> = () => {
                         </div>
                     )
                 })}
-            {/* <p className={styles['todo__card_paragraph']}>Drag and drop to reorder list</p> */}
+            <p className={styles['todo__card_paragraph']}>Drag and drop to reorder list</p>
         </div>
     )
 }

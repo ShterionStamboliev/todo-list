@@ -53,3 +53,12 @@ export const runSignOutAlert = () => {
         position: 'top-center'
     })
 }
+
+export const runTodoDeleteSuccess = () => {
+    toast('Todo deleted successfully', {
+        hideProgressBar: true,
+        autoClose: 2000,
+        type: 'success',
+        position: 'top-center'
+    })
+}
