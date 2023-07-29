@@ -6,23 +6,17 @@ import {
     getDocs,
     query,
     where,
-    doc,
-    deleteDoc,
-    updateDoc,
-    deleteField,
-    setDoc
 } from 'firebase/firestore';
 import LoadingSpinner from '../components/Navigation/LoadingSpinner';
 import styles from '../my-todos/styles.module.css'
 import DeleteIcon from '@mui/icons-material/Delete';
-import { runTodoDeleteSuccess } from '../alerts/onSuccess';
+import { handleDeleteTodo } from '../helpers/todoDelete';
 
 const TodoFetcher: React.FC<TodoProps> = () => {
 
     const [todoData, setTodoData] = useState<TodoProps[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const todoCollection = collection(db, 'todos');
-
 
     useEffect(() => {
         getData();
@@ -49,21 +43,6 @@ const TodoFetcher: React.FC<TodoProps> = () => {
                 return error;
             };
         };
-    };
-
-    const handleDeleteTodo = (id: any) => {
-        if (auth.currentUser) {
-            const userRef = doc(db, 'users', auth.currentUser.uid);
-            deleteDoc(doc(db, 'todos', id)).then(async () => {
-                await setDoc(userRef, {
-                    todoList: {
-                        [id]: deleteField()
-                    }
-                }, { merge: true });
-            }
-            )
-        }
-        runTodoDeleteSuccess();
     };
 
     return (
