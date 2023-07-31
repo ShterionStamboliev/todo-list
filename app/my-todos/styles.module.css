@@ -131,19 +131,18 @@
     left: 31em;
     width: 4em;
     height: 4em;
+    color: rgb(36, 39, 61);
+    transition: filter 1s ease-in-out;
 }
 
 .todo__delete_btn:hover {
-    transition: transform 300ms ease-in-out;
-    transition-duration: 1s;
-    transition-delay: 0.2s;
-    color: rgb(36, 39, 61);
+    transform: scale(1.05);
 }
 
 .todo__page_btn {
     background: none;
     border: none;
-    color: rgb(108, 58, 154);
+    color: rgb(32, 33, 36);
     cursor: pointer;
     font-size: 1.3em;
 }
@@ -154,7 +153,7 @@
     border: none;
 }
 
-.page__btn_changer {
+.prev_btn {
     background: none;
     border: none;
     cursor: pointer;
@@ -163,6 +162,20 @@
     font-weight: bold;
     filter: blur(0);
     transition: filter 1s ease-in-out;
+    color: rgb(32, 33, 36);
+    margin-right: 1rem;
+}
+.next_btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    filter: blur(0);
+    transition: filter 1s ease-in-out;
+    color: rgb(32, 33, 36);
+    margin-left: 1rem;
 }
 
 .page__btn_changer:hover {

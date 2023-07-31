@@ -5,7 +5,7 @@ const Footer = () => {
 
     return (
         <div className={styles['page_footer']}>
-            Shocktherapy @ &copy
+            Shterion Stamboliev &copy; 2023
         </div>
     )
 }
