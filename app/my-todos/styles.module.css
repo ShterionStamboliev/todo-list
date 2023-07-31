@@ -148,3 +148,43 @@
     transition-delay: 0.2s;
     color: rgb(36, 39, 61);
 }
+
+.todo__page_btn {
+    background: none;
+    border: none;
+    color: rgb(108, 58, 154);
+    cursor: pointer;
+    font-size: 1.3em;
+}
+
+.todo__cursor_page {
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.page__btn_changer {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    filter: blur(0);
+    transition: filter 1s ease-in-out;
+}
+
+.page__btn_changer:hover {
+    transform: scale(1.05);
+    text-decoration: underline;
+    text-decoration-color: rgb(108, 58, 154);
+    text-decoration-thickness: 0.10rem;
+}
+
+.todo__paginator {
+    text-align: center;
+    width: 26em;
+    height: 2em;
+    position: fixed;
+    top: 40rem;
+}
