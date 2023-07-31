@@ -11,11 +11,6 @@ import LoadingSpinner from '../components/Navigation/LoadingSpinner';
 import styles from '../my-todos/styles.module.css'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { handleDeleteTodo } from '../helpers/todoDelete';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Box from '@mui/material/Box';
 
 const TodoFetcher: React.FC<TodoProps> = () => {
 
@@ -49,10 +44,6 @@ const TodoFetcher: React.FC<TodoProps> = () => {
         };
     };
 
-    const handlePageChange = (event: SelectChangeEvent) => {
-        setTodoPerPage(event.target.value as string);
-    };
-
     const getData = async () => {
         try {
             if (auth.currentUser) {
@@ -78,18 +69,6 @@ const TodoFetcher: React.FC<TodoProps> = () => {
 
     return (
         <>
-            <Box sx={{ maxWidth: 170 }}>
-                <FormControl sx={{ minWidth: 170 }}>
-                    <InputLabel>Show</InputLabel>
-                    <Select
-                        label="Todo"
-                        onChange={handlePageChange}
-                    >
-                        <MenuItem value={5}>Five</MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                    </Select>
-                </FormControl>
-            </Box>
             <div className={styles['todo__tasks__container']}>
                 {isLoading ?
                     <LoadingSpinner /> :
