@@ -9,7 +9,7 @@ const GuestNavigation: React.FC = () => {
     return (
         <>
             <div className={styles['top__navbar__left']}>
-                <Link href='/' className={styles['top__navbar__home']}>Todo-List</Link>
+                <Link href='/' className={styles['top__navbar__home']}>Listify</Link>
                 <div className={styles['top__navbar__right']}>
                     <Link href='/login' className={styles['top__navbar__login']}>Login</Link>
                     <Link href='/register' className={styles['top__navbar__register']}>Register</Link>

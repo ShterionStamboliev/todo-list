@@ -13,10 +13,10 @@ const UserNavigation: React.FC = () => {
     return (
         <>
             <div className={styles['top__navbar__left']}>
-                <Link href='/' className={styles['top__navbar__home']}>Todo-List</Link>
+                <Link href='/' className={styles['top__navbar__home']}>ListiFY</Link>
                 <div className={styles['top__navbar__right']}>
-                    <Link href='/my-todos' className={styles['top__navbar__add']}>My todos</Link>
                     <p className={styles['top__navbar__user']}>{`Logged in as ${user?.email}`}</p>
+                    <Link href='/my-todos' className={styles['top__navbar__add']}>My todos</Link>
                     <Logout />
                 </div>
             </div>

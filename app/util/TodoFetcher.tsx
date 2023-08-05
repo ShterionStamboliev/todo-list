@@ -11,6 +11,7 @@ import LoadingSpinner from '../components/Navigation/LoadingSpinner';
 import styles from '../my-todos/styles.module.css'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { handleDeleteTodo } from '../helpers/todoDelete';
+import { runTodoCompletion, runTodoNotCompleted } from '../alerts/onSuccess';
 
 const TodoFetcher: React.FC<TodoProps> = () => {
 
@@ -18,6 +19,7 @@ const TodoFetcher: React.FC<TodoProps> = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [todoPerPage, setTodoPerPage] = useState<number | any>(5);
     const [currentPage, setCurrentPage] = useState<number | any>(1);
+    const [isChecked, setIsChecked] = useState<boolean>(false);
 
     useEffect(() => {
         getData();
@@ -67,6 +69,14 @@ const TodoFetcher: React.FC<TodoProps> = () => {
         };
     };
 
+    const handleRadioChange = (e: any) => {
+        if (e.target.checked === true) {
+            runTodoCompletion();
+        } else {
+            runTodoNotCompleted();
+        }
+    }
+
     return (
         <>
             <div className={styles['todo__tasks__container']}>
@@ -77,8 +87,9 @@ const TodoFetcher: React.FC<TodoProps> = () => {
                             <div className={styles['todo__card']} key={i}>
                                 <input
                                     className={styles['todo__radio__btn']}
-                                    type="radio"
+                                    type="checkbox"
                                     id="radio-input"
+                                    onChange={handleRadioChange}
                                 />
                                 {todo.title}
                                 <button
@@ -89,7 +100,6 @@ const TodoFetcher: React.FC<TodoProps> = () => {
                             </div>
                         )
                     ))}
-                {/* <p className={styles['todo__card_paragraph']}>Drag and drop to reorder list</p> */}
             </div>
             {todoPages.length > 0 ?
                 <div className={styles['todo__paginator']}>

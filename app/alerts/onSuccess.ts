@@ -71,3 +71,21 @@ export const runTodoAddSuccess = () => {
         position: 'top-center'
     })
 }
+
+export const runTodoCompletion = () => {
+    toast('Todo task completed!', {
+        hideProgressBar: true,
+        autoClose: 2000,
+        type: 'success',
+        position: 'top-center'
+    })
+}
+
+export const runTodoNotCompleted = () => {
+    toast('Todo task unchecked', {
+        hideProgressBar: true,
+        autoClose: 2000,
+        type: 'error',
+        position: 'top-center'
+    })
+}

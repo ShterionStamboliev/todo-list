@@ -91,6 +91,7 @@
     background-color: transparent;
     position: relative;
     left: 27.5em;
+    top: 0.3rem;
 }
 
 .todo__radio__btn:checked::before {
