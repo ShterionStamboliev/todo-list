@@ -19,13 +19,13 @@
   color: rgb(91, 92, 118);
   font-size: 1.5em;
   align-items: center;
+  opacity: 0.8;
+  transition: 0.3s;
 }
 
-.top__navbar__add:hover {
-  text-decoration: underline;
-  text-decoration-color: rgb(71, 48, 147);
-  text-decoration-thickness: 0.10rem;
-  transition: cubic-bezier(0.075, 0.82, 1, 1);
+.top__navbar__home:hover {
+  color: rgb(98, 95, 120);
+  opacity: 1;
 }
 
 .top__navbar__user {
@@ -33,6 +33,17 @@
   font-size: 1.5em;
   margin: 0;
   color: rgb(91, 92, 118);
+}
+
+.top__navbar__add {
+  color: rgb(91, 92, 118);
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+.top__navbar__add:hover {
+  color: rgb(98, 95, 120);
+  opacity: 1;
 }
 
 .top__navbar__logout_btn {
@@ -43,16 +54,16 @@
   cursor: pointer;
   padding-right: 2rem;
   color: rgb(91, 92, 118);
+  opacity: 0.8;
+  transition: 0.3s;
 }
 
 .top__navbar__logout_btn:hover {
-  text-decoration: underline;
-  text-decoration-color: rgb(71, 48, 147);
-  text-decoration-thickness: 0.10rem;
-  transition: cubic-bezier(1, 0.82, 1, 1);
+  color: rgb(98, 95, 120);
+  opacity: 1;
 }
 
-@keyframes spinner {
+/* @keyframes spinner {
   0% {
     transform: rotate(0deg);
   }
@@ -69,13 +80,31 @@
   border-top: 10px solid #383636;
   border-radius: 50%;
   animation: spinner 1.5s linear infinite;
+} */
+
+
+.loader {
+  position: relative;
+  width: 26rem;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgb(103, 27, 255), transparent);
+  overflow: hidden;
 }
 
-.loading__spinner__container {
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  height: 350px;
+.loader::after {
+  content: '';
+  position: absolute;
+  translate: -150px 0;
+  width: 12rem;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgb(0, 0, 0), transparent);
+  animation: loader 1s infinite;
+}
+
+@keyframes loader {
+  100% {
+    translate: 19rem 0;
+  }
 }
 
 .page_footer {
