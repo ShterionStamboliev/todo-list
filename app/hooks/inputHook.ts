@@ -12,5 +12,5 @@ export const inputData = () => {
         })
     }
 
-    return [value, setValue];
+    return [value];
 };
