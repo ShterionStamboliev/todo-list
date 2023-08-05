@@ -80,9 +80,25 @@
 }
 
 .page_footer {
-  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
   margin-top: auto;
   text-align: center;
   background-color: rgb(32, 33, 36);
   color: rgb(91, 92, 118);
+}
+
+.footer__github_link {
+  margin-top: 0.5rem;
+  color: rgb(111, 112, 144);
+  filter: blur(0);
+  transition: filter 1s ease-in-out;
+}
+
+.footer__github_link:hover {
+  transform: scale(1.05);
+  color: rgb(151, 153, 195);
 }

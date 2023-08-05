@@ -91,17 +91,17 @@ const TodoFetcher: React.FC<TodoProps> = () => {
                     ))}
                 {/* <p className={styles['todo__card_paragraph']}>Drag and drop to reorder list</p> */}
             </div>
-
-            <div className={styles['todo__paginator']}>
-                <button onClick={prevPageHandler} className={styles['prev_btn']}>Prev</button>
-                {todoPages.map((page => (
-                    <button
-                        key={page}
-                        onClick={() => setCurrentPage(page)}
-                        className={currentPage === page ? styles['todo__page_btn'] : styles['todo__cursor_page']}>{page}</button>
-                )))}
-                <button onClick={nextPageHandler} className={styles['next_btn']}>Next</button>
-            </div>
+            {todoPages.length > 0 ?
+                <div className={styles['todo__paginator']}>
+                    <button onClick={prevPageHandler} className={styles['prev_btn']}>Prev</button>
+                    {todoPages.map((page => (
+                        <button
+                            key={page}
+                            onClick={() => setCurrentPage(page)}
+                            className={currentPage === page && todoPages.length > 0 ? styles['todo__page_btn'] : styles['todo__cursor_page']}>{page}</button>
+                    )))}
+                    <button onClick={nextPageHandler} className={styles['next_btn']}>Next</button>
+                </div> : ''}
         </>
     )
 }

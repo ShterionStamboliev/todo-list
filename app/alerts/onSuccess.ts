@@ -62,3 +62,12 @@ export const runTodoDeleteSuccess = () => {
         position: 'top-center'
     })
 }
+
+export const runTodoAddSuccess = () => {
+    toast('Todo added successfully', {
+        hideProgressBar: true,
+        autoClose: 2000,
+        type: 'success',
+        position: 'top-center'
+    })
+}

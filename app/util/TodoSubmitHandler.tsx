@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from '../my-todos/styles.module.css'
-import { runEmptyFieldError } from '../alerts/onSuccess';
+import { runEmptyFieldError, runTodoAddSuccess } from '../alerts/onSuccess';
 import { auth, db } from '../firebase/config';
 import { addDoc, collection, doc, setDoc, writeBatch } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
@@ -45,6 +45,7 @@ const SubmitHandler: React.FC = () => {
                 }, { merge: true })
             })
             await batch.commit();
+            runTodoAddSuccess();
             setTodo({
                 todoInput: ''
             });

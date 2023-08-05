@@ -178,11 +178,12 @@
     margin-left: 1rem;
 }
 
-.page__btn_changer:hover {
+.prev_btn:hover {
     transform: scale(1.05);
-    text-decoration: underline;
-    text-decoration-color: rgb(108, 58, 154);
-    text-decoration-thickness: 0.10rem;
+}
+
+.next_btn:hover {
+    transform: scale(1.05);
 }
 
 .todo__paginator {
