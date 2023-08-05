@@ -5,12 +5,10 @@ export const metadata: Metadata = {
     title: 'My todos'
 };
 
-const AddTodoPage: React.FC<TodoProps> = ({ title }) => {
+const AddTodoPage: React.FC<TodoProps> = () => {
 
     return (
-        <AddTodo
-            title={title}
-        />
+        <AddTodo />
     )
 }
 
